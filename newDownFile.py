@@ -20,9 +20,15 @@ class DownLoadUrl(threading.Thread):
             url = self.queue.get()
             localName = self.url2name(url)
             print localName
-            ret = urllib2.urlopen(urllib2.Request(url),None,120)
+            try:
+                ret = urllib2.urlopen(urllib2.Request(url),None,120)
+            except:
+                continue   #如果打开网页遇到错误 执行行下一个
             with open(localName,"wb") as _fp:
-                _fp.write(ret.read())
+                try:
+                    _fp.write(ret.read())
+                except:
+                    continue
 
 
 def geturl(url):

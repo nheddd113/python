@@ -20,7 +20,7 @@ class DownLoadUrl(threading.Thread):
             url = self.queue.get()
             localName = self.url2name(url)
             print localName
-            ret = urllib2.urlopen(urllib2.Request(url))
+            ret = urllib2.urlopen(urllib2.Request(url),None,120)
             with open(localName,"wb") as _fp:
                 _fp.write(ret.read())
 

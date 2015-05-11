@@ -1,0 +1,3562 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = off;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET escape_string_warning = off;
+
+--
+-- Name: plpgsql; Type: PROCEDURAL LANGUAGE; Schema: -; Owner: postgres
+--
+
+CREATE PROCEDURAL LANGUAGE plpgsql;
+
+
+ALTER PROCEDURAL LANGUAGE plpgsql OWNER TO postgres;
+
+SET search_path = public, pg_catalog;
+
+--
+-- Name: save_player_state(character varying, character varying, character varying, smallint, character varying); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION save_player_state(loginname character varying, role_name character varying, platform character varying, step smallint, source character varying) RETURNS integer
+    LANGUAGE plpgsql
+    AS $$
+DECLARE
+rename loginname to loginname_param;
+rename role_name to role_name_param;
+rename platform to platform_param;
+rename step to step_param;
+rename source to source_param;
+BEGIN 
+update player_state set login_step = step_param, role_name=role_name_param where account_name=loginname_param and platform=platform_param and login_step < step_param;
+if FOUND then
+ return 1;
+end if;
+insert into player_state(account_name, role_name, login_step, source, platform) values(loginname_param, role_name_param, step_param, source_param, platform_param);
+return 1;
+end;
+$$;
+
+
+ALTER FUNCTION public.save_player_state(loginname character varying, role_name character varying, platform character varying, step smallint, source character varying) OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: add_pay_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE add_pay_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    ident character varying(100),
+    log_time timestamp without time zone,
+    url character varying(200),
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.add_pay_0 OWNER TO postgres;
+
+--
+-- Name: attack_instance_npc_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE attack_instance_npc_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    instance_id smallint,
+    npc_id smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.attack_instance_npc_0 OWNER TO postgres;
+
+--
+-- Name: battle_order_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE battle_order_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_battle_order integer,
+    after_battle_order integer,
+    battle_order integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.battle_order_flow_0 OWNER TO postgres;
+
+--
+-- Name: bosomfriend_exp_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE bosomfriend_exp_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    npc_id integer,
+    befor_lvl integer,
+    after_lvl integer,
+    befor_exp integer,
+    after_exp integer,
+    exp integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.bosomfriend_exp_flow_0 OWNER TO postgres;
+
+--
+-- Name: build_lve_up_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE build_lve_up_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    golden_coin integer,
+    build_id smallint,
+    build_lvl_before smallint,
+    build_lvl_after smallint,
+    consume_money integer,
+    before_money integer,
+    after_money integer,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.build_lve_up_0 OWNER TO postgres;
+
+--
+-- Name: bun_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE bun_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_bun integer,
+    after_bun integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.bun_flow_0 OWNER TO postgres;
+
+--
+-- Name: censer_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE censer_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_censer integer,
+    after_censer integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.censer_flow_0 OWNER TO postgres;
+
+--
+-- Name: chat_record_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE chat_record_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    client_ip character varying(100),
+    chat_type smallint,
+    chat_content character varying(252),
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.chat_record_0 OWNER TO postgres;
+
+--
+-- Name: city_defense_battle_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE city_defense_battle_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    state smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.city_defense_battle_0 OWNER TO postgres;
+
+--
+-- Name: citybattlecredit_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE citybattlecredit_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_value integer,
+    after_value integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.citybattlecredit_flow_0 OWNER TO postgres;
+
+--
+-- Name: competition_cheer_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE competition_cheer_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    round smallint,
+    server_id character varying(100),
+    acc_name character varying(100),
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.competition_cheer_0 OWNER TO postgres;
+
+--
+-- Name: competition_result_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE competition_result_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    win_name character varying(100),
+    win_server_id character varying(100),
+    failed_name character varying(100),
+    failed_server_id character varying(100),
+    round smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.competition_result_0 OWNER TO postgres;
+
+--
+-- Name: corps_create_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE corps_create_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    corps_captain character varying(100),
+    corps_id integer,
+    corps_name character varying(100),
+    corps_lvl smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.corps_create_0 OWNER TO postgres;
+
+--
+-- Name: corps_lve_up_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE corps_lve_up_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    corps_captain character varying(100),
+    corps_id integer,
+    corps_name character varying(100),
+    corps_lvl smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.corps_lve_up_0 OWNER TO postgres;
+
+--
+-- Name: crystal_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE crystal_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_crystal integer,
+    after_crystal integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.crystal_flow_0 OWNER TO postgres;
+
+--
+-- Name: elite_card_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE elite_card_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    card_id integer,
+    befor_card_num integer,
+    after_card_num integer,
+    card_num integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.elite_card_flow_0 OWNER TO postgres;
+
+--
+-- Name: equipment_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE equipment_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    equipment_dbid bigint,
+    equipment_id integer,
+    equipment_name character varying(100),
+    equipment_type smallint,
+    equipment_lvl smallint,
+    crit_rate smallint,
+    backbeat_rate smallint,
+    decline_injure_rate smallint,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.equipment_flow_0 OWNER TO postgres;
+
+--
+-- Name: etched_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE etched_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    etched_type smallint,
+    etched_lvl smallint,
+    befor_etched integer,
+    consumed integer,
+    after_etched integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.etched_flow_0 OWNER TO postgres;
+
+--
+-- Name: extra_order_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE extra_order_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    cost_type smallint,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.extra_order_flow_0 OWNER TO postgres;
+
+--
+-- Name: famous_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE famous_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    famous_type integer,
+    befor_value integer,
+    after_value integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.famous_flow_0 OWNER TO postgres;
+
+--
+-- Name: feat_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE feat_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_feat integer,
+    after_feat integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.feat_flow_0 OWNER TO postgres;
+
+--
+-- Name: food_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE food_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_food integer,
+    after_food integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.food_flow_0 OWNER TO postgres;
+
+--
+-- Name: general_fight_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_fight_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    atk_name character varying(100),
+    def_name character varying(100),
+    atk_general_id smallint,
+    def_general_lvl smallint,
+    fight_result smallint,
+    report_name character varying(100),
+    fight_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.general_fight_0 OWNER TO postgres;
+
+--
+-- Name: general_lve_up_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_lve_up_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    general_id smallint,
+    general_lvl smallint,
+    general_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.general_lve_up_0 OWNER TO postgres;
+
+--
+-- Name: general_rebuild_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_rebuild_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    train_lvl smallint,
+    navy_train_lvl smallint,
+    general_id smallint,
+    transfer_times smallint,
+    general_level smallint,
+    general_navy_level smallint,
+    bun_exp integer,
+    meate_exp integer,
+    wine_exp integer,
+    pear_exp integer,
+    jade_exp integer,
+    censer_exp integer,
+    dragon_soul integer,
+    tiger_soul integer,
+    suzaku_soul integer,
+    basaitic_soul integer,
+    reward_order integer,
+    tavern_leader integer,
+    tavern_attack integer,
+    tavern_mentality integer,
+    tavern_soldiernum integer,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.general_rebuild_0 OWNER TO postgres;
+
+--
+-- Name: general_reincarnation_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_reincarnation_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    general_id smallint,
+    general_lvl smallint,
+    transfer_num smallint,
+    transfer_type integer,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.general_reincarnation_0 OWNER TO postgres;
+
+--
+-- Name: general_school_skill_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_school_skill_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    old_skill smallint,
+    new_skill smallint,
+    choose_skill smallint,
+    pos smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.general_school_skill_0 OWNER TO postgres;
+
+--
+-- Name: general_school_train_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_school_train_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    stage smallint,
+    project_id smallint,
+    train_num smallint,
+    ret smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.general_school_train_0 OWNER TO postgres;
+
+--
+-- Name: general_soul_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_soul_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    soul_type smallint,
+    befor_soul integer,
+    after_soul integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.general_soul_flow_0 OWNER TO postgres;
+
+--
+-- Name: general_train_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE general_train_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    general_id smallint,
+    general_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.general_train_0 OWNER TO postgres;
+
+--
+-- Name: gest_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE gest_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_gest integer,
+    after_gest integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.gest_flow_0 OWNER TO postgres;
+
+--
+-- Name: gold_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE gold_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_money integer,
+    after_money integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.gold_flow_0 OWNER TO postgres;
+
+--
+-- Name: insignia_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE insignia_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_career integer,
+    role_sex integer,
+    level integer,
+    before_insignia_num integer,
+    after_insignia_num integer,
+    insignia_num_changes integer,
+    insignia_flow_way integer,
+    change_reason integer,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.insignia_flow_0 OWNER TO postgres;
+
+--
+-- Name: jade_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE jade_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_jade integer,
+    after_jade integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.jade_flow_0 OWNER TO postgres;
+
+--
+-- Name: join_corps_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE join_corps_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    corps_captain character varying(100),
+    corps_id integer,
+    corps_name character varying(100),
+    corps_lvl smallint,
+    joiner_name character varying(100),
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.join_corps_0 OWNER TO postgres;
+
+--
+-- Name: log_tables; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE log_tables (
+    table_name character varying(100) NOT NULL,
+    prefix_name character varying(100) NOT NULL,
+    begin_time timestamp without time zone,
+    end_time timestamp without time zone
+);
+
+
+ALTER TABLE public.log_tables OWNER TO postgres;
+
+--
+-- Name: material_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE material_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    material_id smallint,
+    befor_material integer,
+    after_material integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.material_flow_0 OWNER TO postgres;
+
+--
+-- Name: meat_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE meat_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_meat integer,
+    after_meat integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.meat_flow_0 OWNER TO postgres;
+
+--
+-- Name: military_order_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE military_order_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_order integer,
+    after_order integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.military_order_flow_0 OWNER TO postgres;
+
+--
+-- Name: modify_login_name_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE modify_login_name_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    modifier_name character varying(100),
+    log_time timestamp without time zone,
+    old_name character varying(100),
+    new_name character varying(100),
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.modify_login_name_0 OWNER TO postgres;
+
+--
+-- Name: money_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE money_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_money integer,
+    after_money integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.money_flow_0 OWNER TO postgres;
+
+--
+-- Name: orange_jade_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE orange_jade_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_jade integer,
+    after_jade integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.orange_jade_flow_0 OWNER TO postgres;
+
+--
+-- Name: pass_instance_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pass_instance_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    instance_id smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.pass_instance_0 OWNER TO postgres;
+
+--
+-- Name: pass_tower_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pass_tower_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    tower_no smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.pass_tower_0 OWNER TO postgres;
+
+--
+-- Name: pearl_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE pearl_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_pearl integer,
+    after_pearl integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.pearl_flow_0 OWNER TO postgres;
+
+--
+-- Name: player_state; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE player_state (
+    account_name character varying(200) NOT NULL,
+    role_name character varying(100),
+    login_step smallint,
+    create_time timestamp without time zone DEFAULT now(),
+    source character varying(200),
+    platform character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.player_state OWNER TO postgres;
+
+--
+-- Name: position_transfer_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE position_transfer_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    corp_id smallint,
+    corp_name character varying(100),
+    corp_lvl smallint,
+    role_ip character varying(30),
+    member_name character varying(100),
+    member_id bigint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.position_transfer_flow_0 OWNER TO postgres;
+
+--
+-- Name: prestige_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE prestige_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_prestige integer,
+    after_prestige integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.prestige_flow_0 OWNER TO postgres;
+
+--
+-- Name: purple_jade_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE purple_jade_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_jade integer,
+    after_jade integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.purple_jade_flow_0 OWNER TO postgres;
+
+--
+-- Name: reward_order_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE reward_order_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    cost_type smallint,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.reward_order_flow_0 OWNER TO postgres;
+
+--
+-- Name: rob_sea_ship_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE rob_sea_ship_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    rob_type smallint,
+    good_id integer,
+    cost_type integer,
+    cost_value integer,
+    other_id bigint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.rob_sea_ship_0 OWNER TO postgres;
+
+--
+-- Name: role_create_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE role_create_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    client_ip character varying(100),
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.role_create_0 OWNER TO postgres;
+
+--
+-- Name: role_login_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE role_login_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    client_ip character varying(100),
+    zone_id integer,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    gest integer,
+    prestige integer,
+    money integer,
+    golden_coin integer,
+    create_time timestamp without time zone,
+    total_onlinetime integer,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.role_login_0 OWNER TO postgres;
+
+--
+-- Name: role_logout_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE role_logout_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    login_time timestamp without time zone,
+    client_ip character varying(100),
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    gest integer,
+    prestige integer,
+    money integer,
+    golden_coin integer,
+    online_time integer,
+    zone_onlinetime integer,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.role_logout_0 OWNER TO postgres;
+
+--
+-- Name: silver_cross_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE silver_cross_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_silver_cross integer,
+    after_silver_cross integer,
+    silver_cross integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.silver_cross_flow_0 OWNER TO postgres;
+
+--
+-- Name: soul_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE soul_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_soul integer,
+    after_soul integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.soul_flow_0 OWNER TO postgres;
+
+--
+-- Name: statistic_tables; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE statistic_tables (
+    table_name character varying(100) NOT NULL,
+    name character varying(100),
+    prefix_name character varying(100),
+    col_name character varying(100),
+    pk_cols character varying(200),
+    statistic_type character varying(10)
+);
+
+
+ALTER TABLE public.statistic_tables OWNER TO postgres;
+
+--
+-- Name: table_definition; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE table_definition (
+    name character varying(100) NOT NULL,
+    definition_json character varying(4096) NOT NULL
+);
+
+
+ALTER TABLE public.table_definition OWNER TO postgres;
+
+--
+-- Name: tavern_attri_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tavern_attri_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    general_id smallint,
+    attri_type smallint,
+    pre_tavern_attir smallint,
+    tavern_attir smallint,
+    tavern_attir_add smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.tavern_attri_0 OWNER TO postgres;
+
+--
+-- Name: tech_lve_up_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tech_lve_up_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_lvl smallint,
+    golden_coin integer,
+    tech_id smallint,
+    tech_lvl_before smallint,
+    tech_lvl_after smallint,
+    consume_gest integer,
+    before_gest integer,
+    after_gest integer,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.tech_lve_up_0 OWNER TO postgres;
+
+--
+-- Name: tower_order_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE tower_order_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_tower_order integer,
+    after_tower_order integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.tower_order_flow_0 OWNER TO postgres;
+
+--
+-- Name: travel_pass_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE travel_pass_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.travel_pass_0 OWNER TO postgres;
+
+--
+-- Name: travel_times_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE travel_times_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    level smallint,
+    before_travel_times smallint,
+    after_travel_times smallint,
+    consumed smallint,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.travel_times_flow_0 OWNER TO postgres;
+
+--
+-- Name: wine_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE wine_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_id bigint,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_wine integer,
+    after_wine integer,
+    consumed integer,
+    channel smallint,
+    action_type smallint,
+    extra_str character varying(200),
+    client_type smallint DEFAULT 0
+);
+
+
+ALTER TABLE public.wine_flow_0 OWNER TO postgres;
+
+--
+-- Name: world_city_food_flow_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE world_city_food_flow_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    role_name character varying(100),
+    role_job smallint,
+    role_sex smallint,
+    role_lvl smallint,
+    befor_food integer,
+    after_food integer,
+    food integer,
+    channel smallint,
+    action_type smallint,
+    client_type smallint,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.world_city_food_flow_0 OWNER TO postgres;
+
+--
+-- Name: worldcity_rank_0; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE TABLE worldcity_rank_0 (
+    internal_auto_id bigint NOT NULL,
+    eventid bigint,
+    login_name character varying(100),
+    log_time timestamp without time zone,
+    master_id smallint,
+    failed_server_id character varying,
+    extra_str character varying(200)
+);
+
+
+ALTER TABLE public.worldcity_rank_0 OWNER TO postgres;
+
+--
+-- Data for Name: add_pay_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY add_pay_0 (internal_auto_id, eventid, ident, log_time, url, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: attack_instance_npc_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY attack_instance_npc_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, instance_id, npc_id, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: battle_order_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY battle_order_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_battle_order, after_battle_order, battle_order, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bosomfriend_exp_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY bosomfriend_exp_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, role_job, role_sex, role_lvl, npc_id, befor_lvl, after_lvl, befor_exp, after_exp, exp, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: build_lve_up_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY build_lve_up_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, golden_coin, build_id, build_lvl_before, build_lvl_after, consume_money, before_money, after_money, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bun_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY bun_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_bun, after_bun, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: censer_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY censer_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_censer, after_censer, consumed, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: chat_record_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY chat_record_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, client_ip, chat_type, chat_content, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: city_defense_battle_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY city_defense_battle_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, state, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: citybattlecredit_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY citybattlecredit_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_value, after_value, consumed, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: competition_cheer_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY competition_cheer_0 (internal_auto_id, eventid, login_name, log_time, role_name, round, server_id, acc_name, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: competition_result_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY competition_result_0 (internal_auto_id, eventid, login_name, log_time, win_name, win_server_id, failed_name, failed_server_id, round, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: corps_create_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY corps_create_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, corps_captain, corps_id, corps_name, corps_lvl, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: corps_lve_up_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY corps_lve_up_0 (internal_auto_id, eventid, login_name, log_time, corps_captain, corps_id, corps_name, corps_lvl, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: crystal_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY crystal_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_crystal, after_crystal, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: elite_card_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY elite_card_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, card_id, befor_card_num, after_card_num, card_num, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: equipment_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY equipment_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, equipment_dbid, equipment_id, equipment_name, equipment_type, equipment_lvl, crit_rate, backbeat_rate, decline_injure_rate, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: etched_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY etched_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, etched_type, etched_lvl, befor_etched, consumed, after_etched, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: extra_order_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY extra_order_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, cost_type, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: famous_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY famous_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, famous_type, befor_value, after_value, consumed, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: feat_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY feat_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_feat, after_feat, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: food_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY food_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_food, after_food, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_fight_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_fight_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, atk_name, def_name, atk_general_id, def_general_lvl, fight_result, report_name, fight_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_lve_up_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_lve_up_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, general_id, general_lvl, general_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_rebuild_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_rebuild_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, train_lvl, navy_train_lvl, general_id, transfer_times, general_level, general_navy_level, bun_exp, meate_exp, wine_exp, pear_exp, jade_exp, censer_exp, dragon_soul, tiger_soul, suzaku_soul, basaitic_soul, reward_order, tavern_leader, tavern_attack, tavern_mentality, tavern_soldiernum, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_reincarnation_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_reincarnation_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, general_id, general_lvl, transfer_num, transfer_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_school_skill_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_school_skill_0 (internal_auto_id, eventid, login_name, log_time, role_name, old_skill, new_skill, choose_skill, pos, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_school_train_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_school_train_0 (internal_auto_id, eventid, login_name, log_time, role_name, stage, project_id, train_num, ret, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_soul_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_soul_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, soul_type, befor_soul, after_soul, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: general_train_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY general_train_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, general_id, general_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: gest_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY gest_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_gest, after_gest, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: gold_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY gold_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, role_job, role_sex, role_lvl, befor_money, after_money, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: insignia_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY insignia_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_career, role_sex, level, before_insignia_num, after_insignia_num, insignia_num_changes, insignia_flow_way, change_reason, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: jade_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY jade_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_jade, after_jade, consumed, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: join_corps_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY join_corps_0 (internal_auto_id, eventid, login_name, log_time, corps_captain, corps_id, corps_name, corps_lvl, joiner_name, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: log_tables; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY log_tables (table_name, prefix_name, begin_time, end_time) FROM stdin;
+attack_instance_npc_0	attack_instance_npc	2012-07-31 13:36:22	\N
+build_lve_up_0	build_lve_up	2012-07-31 13:36:22	\N
+bun_flow_0	bun_flow	2012-07-31 13:36:22	\N
+chat_record_0	chat_record	2012-07-31 13:36:22	\N
+role_create_0	role_create	2012-07-31 13:36:22	\N
+crystal_flow_0	crystal_flow	2012-07-31 13:36:22	\N
+equipment_flow_0	equipment_flow	2012-07-31 13:36:22	\N
+feat_flow_0	feat_flow	2012-07-31 13:36:22	\N
+food_flow_0	food_flow	2012-07-31 13:36:22	\N
+general_fight_0	general_fight	2012-07-31 13:36:22	\N
+general_lve_up_0	general_lve_up	2012-07-31 13:36:22	\N
+general_reincarnation_0	general_reincarnation	2012-07-31 13:36:22	\N
+general_soul_flow_0	general_soul_flow	2012-07-31 13:36:22	\N
+general_train_0	general_train	2012-07-31 13:36:22	\N
+gest_flow_0	gest_flow	2012-07-31 13:36:22	\N
+gold_flow_0	gold_flow	2012-07-31 13:36:22	\N
+orange_jade_flow_0	orange_jade_flow	2012-07-31 13:36:22	\N
+purple_jade_flow_0	purple_jade_flow	2012-07-31 13:36:22	\N
+join_corps_0	join_corps	2012-07-31 13:36:23	\N
+material_flow_0	material_flow	2012-07-31 13:36:23	\N
+meat_flow_0	meat_flow	2012-07-31 13:36:23	\N
+military_order_flow_0	military_order_flow	2012-07-31 13:36:23	\N
+money_flow_0	money_flow	2012-07-31 13:36:23	\N
+corps_create_0	corps_create	2012-07-31 13:36:23	\N
+corps_lve_up_0	corps_lve_up	2012-07-31 13:36:23	\N
+pass_instance_0	pass_instance	2012-07-31 13:36:23	\N
+pass_tower_0	pass_tower	2012-07-31 13:36:23	\N
+prestige_flow_0	prestige_flow	2012-07-31 13:36:23	\N
+role_login_0	role_login	2012-07-31 13:36:23	\N
+role_logout_0	role_logout	2012-07-31 13:36:23	\N
+soul_flow_0	soul_flow	2012-07-31 13:36:23	\N
+tech_lve_up_0	tech_lve_up	2012-07-31 13:36:23	\N
+tower_order_flow_0	tower_order_flow	2012-07-31 13:36:23	\N
+modify_login_name_0	modify_login_name	2012-07-31 13:36:23	\N
+wine_flow_0	wine_flow	2012-07-31 13:36:23	\N
+etched_flow_0	etched_flow	2012-08-15 15:37:18	\N
+extra_order_flow_0	extra_order_flow	2012-11-22 20:45:23	\N
+citybattlecredit_flow_0	citybattlecredit_flow	2013-01-15 11:33:34	\N
+famous_flow_0	famous_flow	2013-01-15 11:33:41	\N
+bosomfriend_exp_flow_0	bosomfriend_exp_flow	2013-02-05 14:42:02	\N
+city_defense_battle_0	city_defense_battle	2013-05-14 11:46:38	\N
+general_school_train_0	general_school_train	2013-05-14 11:46:38	\N
+rob_sea_ship_0	rob_sea_ship	2013-05-14 11:46:38	\N
+elite_card_flow_0	elite_card_flow	2013-06-13 20:06:05	\N
+reward_order_flow_0	reward_order_flow	2013-07-19 06:30:51	\N
+travel_pass_0	travel_pass	2013-11-06 22:04:35	\N
+position_transfer_flow_0	position_transfer_flow	2013-11-06 22:04:35	\N
+travel_times_flow_0	travel_times_flow	2013-11-06 22:04:35	\N
+insignia_flow_0	insignia_flow	2013-11-11 23:33:07	\N
+world_city_food_flow_0	world_city_food_flow	2013-11-22 18:04:03	\N
+censer_flow_0	censer_flow	2014-02-10 10:40:41	\N
+jade_flow_0	jade_flow	2014-02-10 10:40:41	\N
+pearl_flow_0	pearl_flow	2014-02-10 10:40:41	\N
+battle_order_flow_0	battle_order_flow	2014-02-10 10:40:41	\N
+add_pay_0	add_pay	2014-03-19 22:52:20	\N
+general_school_skill_0	general_school_skill	2014-07-15 20:50:34	\N
+competition_result_0	competition_result	2014-07-15 20:50:35	\N
+competition_cheer_0	competition_cheer	2014-07-15 20:50:35	\N
+general_rebuild_0	general_rebuild	2014-08-01 13:42:40	\N
+worldcity_rank_0	worldcity_rank	2014-08-01 13:42:41	\N
+tavern_attri_0	tavern_attri	2014-08-01 16:18:22	\N
+silver_cross_flow_0	silver_cross_flow	2014-11-05 16:31:06	\N
+\.
+
+
+--
+-- Data for Name: material_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY material_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, material_id, befor_material, after_material, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: meat_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY meat_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_meat, after_meat, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: military_order_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY military_order_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_order, after_order, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: modify_login_name_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY modify_login_name_0 (internal_auto_id, eventid, modifier_name, log_time, old_name, new_name, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: money_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY money_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, role_job, role_sex, role_lvl, befor_money, after_money, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: orange_jade_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY orange_jade_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_jade, after_jade, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pass_instance_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY pass_instance_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, instance_id, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pass_tower_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY pass_tower_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, tower_no, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: pearl_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY pearl_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_pearl, after_pearl, consumed, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: player_state; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY player_state (account_name, role_name, login_step, create_time, source, platform) FROM stdin;
+\.
+
+
+--
+-- Data for Name: position_transfer_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY position_transfer_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, corp_id, corp_name, corp_lvl, role_ip, member_name, member_id, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: prestige_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY prestige_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_prestige, after_prestige, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: purple_jade_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY purple_jade_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_jade, after_jade, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: reward_order_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY reward_order_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, cost_type, channel, action_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: rob_sea_ship_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY rob_sea_ship_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, rob_type, good_id, cost_type, cost_value, other_id, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: role_create_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY role_create_0 (internal_auto_id, eventid, login_name, log_time, client_ip, role_id, role_name, role_job, role_sex, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: role_login_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY role_login_0 (internal_auto_id, eventid, login_name, log_time, client_ip, zone_id, role_id, role_name, role_lvl, gest, prestige, money, golden_coin, create_time, total_onlinetime, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: role_logout_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY role_logout_0 (internal_auto_id, eventid, login_name, log_time, login_time, client_ip, role_id, role_name, role_lvl, gest, prestige, money, golden_coin, online_time, zone_onlinetime, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: silver_cross_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY silver_cross_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, role_job, role_sex, role_lvl, befor_silver_cross, after_silver_cross, silver_cross, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: soul_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY soul_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, role_job, role_sex, role_lvl, befor_soul, after_soul, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: statistic_tables; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY statistic_tables (table_name, name, prefix_name, col_name, pk_cols, statistic_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: table_definition; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY table_definition (name, definition_json) FROM stdin;
+PartyLevelUp	{"name":"corps_lve_up","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"corps_captain","type":"character varying(100)"},{"name":"corps_id","type":"integer"},{"name":"corps_name","type":"character varying(100)"},{"name":"corps_lvl","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+AttackInstanceNPC	{"name":"attack_instance_npc","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"instance_id","type":"smallint"},{"name":"npc_id","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+BunFlow	{"name":"bun_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_bun","type":"integer"},{"name":"after_bun","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+ChatRecord	{"name":"chat_record","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"client_ip","type":"character varying(100)"},{"name":"chat_type","type":"smallint"},{"name":"chat_content","type":"character varying(252)"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+CreateRole	{"name":"role_create","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"client_ip","type":"character varying(100)"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+CrystalFlow	{"name":"crystal_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_crystal","type":"integer"},{"name":"after_crystal","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+EquipmentFlow	{"name":"equipment_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"equipment_dbid","type":"bigint"},{"name":"equipment_id","type":"integer"},{"name":"equipment_name","type":"character varying(100)"},{"name":"equipment_type","type":"smallint"},{"name":"equipment_lvl","type":"smallint"},{"name":"crit_rate","type":"smallint"},{"name":"backbeat_rate","type":"smallint"},{"name":"decline_injure_rate","type":"smallint"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+FeatFlow	{"name":"feat_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_feat","type":"integer"},{"name":"after_feat","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+FoodFlow	{"name":"food_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_food","type":"integer"},{"name":"after_food","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GeneralFight	{"name":"general_fight","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"atk_name","type":"character varying(100)"},{"name":"def_name","type":"character varying(100)"},{"name":"atk_general_id","type":"smallint"},{"name":"def_general_lvl","type":"smallint"},{"name":"fight_result","type":"smallint"},{"name":"report_name","type":"character varying(100)"},{"name":"fight_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GeneralLevelUp	{"name":"general_lve_up","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"general_id","type":"smallint"},{"name":"general_lvl","type":"smallint"},{"name":"general_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GeneralReincarnation	{"name":"general_reincarnation","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"general_id","type":"smallint"},{"name":"general_lvl","type":"smallint"},{"name":"transfer_num","type":"smallint"},{"name":"transfer_type","type":"integer"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GestFlow	{"name":"gest_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_gest","type":"integer"},{"name":"after_gest","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GoldFlow	{"name":"gold_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_money","type":"integer"},{"name":"after_money","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+JadeOraFlow	{"name":"orange_jade_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_jade","type":"integer"},{"name":"after_jade","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+JadePurFlow	{"name":"purple_jade_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_jade","type":"integer"},{"name":"after_jade","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+JoinParty	{"name":"join_corps","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"corps_captain","type":"character varying(100)"},{"name":"corps_id","type":"integer"},{"name":"corps_name","type":"character varying(100)"},{"name":"corps_lvl","type":"smallint"},{"name":"joiner_name","type":"character varying(100)"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+MaterialFlow	{"name":"material_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"material_id","type":"smallint"},{"name":"befor_material","type":"integer"},{"name":"after_material","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+MeatFlow	{"name":"meat_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_meat","type":"integer"},{"name":"after_meat","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+MilitaryOrderFlow	{"name":"military_order_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_order","type":"integer"},{"name":"after_order","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+PartyCreate	{"name":"corps_create","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"corps_captain","type":"character varying(100)"},{"name":"corps_id","type":"integer"},{"name":"corps_name","type":"character varying(100)"},{"name":"corps_lvl","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+PassInstance	{"name":"pass_instance","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"instance_id","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+PassTower	{"name":"pass_tower","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"tower_no","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+PrestigeFlow	{"name":"prestige_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_prestige","type":"integer"},{"name":"after_prestige","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+RoleLogin	{"name":"role_login","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"client_ip","type":"character varying(100)"},{"name":"zone_id","type":"integer"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"gest","type":"integer"},{"name":"prestige","type":"integer"},{"name":"money","type":"integer"},{"name":"golden_coin","type":"integer"},{"name":"create_time","type":"timestamp without time zone"},{"name":"total_onlinetime","type":"integer"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+RoleLogout	{"name":"role_logout","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"login_time","type":"timestamp without time zone"},{"name":"client_ip","type":"character varying(100)"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"gest","type":"integer"},{"name":"prestige","type":"integer"},{"name":"money","type":"integer"},{"name":"golden_coin","type":"integer"},{"name":"online_time","type":"integer"},{"name":"zone_onlinetime","type":"integer"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+SoulFlow	{"name":"soul_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_soul","type":"integer"},{"name":"after_soul","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+TechLevelUp	{"name":"tech_lve_up","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"golden_coin","type":"integer"},{"name":"tech_id","type":"smallint"},{"name":"tech_lvl_before","type":"smallint"},{"name":"tech_lvl_after","type":"smallint"},{"name":"consume_gest","type":"integer"},{"name":"before_gest","type":"integer"},{"name":"after_gest","type":"integer"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+TowerOrderFlow	{"name":"tower_order_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_tower_order","type":"integer"},{"name":"after_tower_order","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+UpdateLoginName	{"name":"modify_login_name","columns":[{"name":"eventID","type":"bigint"},{"name":"modifier_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"old_name","type":"character varying(100)"},{"name":"new_name","type":"character varying(100)"},{"name":"client_type","type":"smallint"}],"index":[["modifier_name","log_time"]]}
+WineFlow	{"name":"wine_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_wine","type":"integer"},{"name":"after_wine","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GeneralTrain	{"name":"general_train","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"general_id","type":"smallint"},{"name":"general_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+BuildLevelUp	{"name":"build_lve_up","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_lvl","type":"smallint"},{"name":"golden_coin","type":"integer"},{"name":"build_id","type":"smallint"},{"name":"build_lvl_before","type":"smallint"},{"name":"build_lvl_after","type":"smallint"},{"name":"consume_money","type":"integer"},{"name":"before_money","type":"integer"},{"name":"after_money","type":"integer"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GeneralSoulFlow	{"name":"general_soul_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"soul_type","type":"smallint"},{"name":"befor_soul","type":"integer"},{"name":"after_soul","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+MoneyFlow	{"name":"money_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_money","type":"integer"},{"name":"after_money","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+EtchedFlow	{"name":"etched_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_name","type":"character varying(100)"},{"name":"etched_type","type":"smallint"},{"name":"etched_lvl","type":"smallint"},{"name":"befor_etched","type":"integer"},{"name":"consumed","type":"integer"},{"name":"after_etched","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+InsigniaFlow	{\r\n"name":"insignia_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"}, \r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n\t\t{"name":"role_career","type":"integer"},\r\n\t\t{"name":"role_sex","type":"integer"},\r\n\t\t{"name":"level","type":"integer"},\r\n\t\t{"name":"before_insignia_num","type":"integer"},\r\n\t\t{"name":"after_insignia_num","type":"integer"},\r\n\t\t{"name":"insignia_num_changes","type":"integer"},\r\n\t\t{"name":"insignia_flow_way","type":"integer"},\r\n\t\t{"name":"change_reason","type":"integer"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+PositionTransfer	{\r\n"name":"position_transfer_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"},  \r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"corp_id","type":"smallint"},\r\n  \t\t{"name":"corp_name","type":"character varying(100)"},\r\n  \t\t{"name":"corp_lvl","type":"smallint"},\r\n  \t\t{"name":"role_ip","type":"character varying(30)"},\r\n  \t\t{"name":"member_name","type":"character varying(100)"},\r\n  \t\t{"name":"member_id","type":"bigint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+CenserFlow	{"name":"censer_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_censer","type":"integer"},{"name":"after_censer","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+RobSeaShip	{\r\n\t"name":"rob_sea_ship",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"}, \r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n\t\t{"name":"rob_type", "type":"smallint"},\r\n\t\t{"name":"good_id", "type":"integer"},\r\n\t\t{"name":"cost_type", "type":"integer"},\r\n\t\t{"name":"cost_value", "type":"integer"},\r\n\t\t{"name":"other_id", "type":"bigint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+CityBattleCreditFlow	{\r\n\t"name":"citybattlecredit_flow",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n\t\t{"name":"role_id", "type":"bigint"},\r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n\t\t{"name":"role_job", "type":"smallint"},\r\n\t\t{"name":"role_sex", "type":"smallint"},\r\n\t\t{"name":"role_lvl", "type":"smallint"},\r\n\t\t{"name":"befor_value", "type":"integer"},\r\n\t\t{"name":"after_value", "type":"integer"},\r\n\t\t{"name":"consumed", "type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+GeneralSchoolTrain	{\r\n"name":"general_school_train",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"stage","type":"smallint"},\r\n  \t\t{"name":"project_id","type":"smallint"},\r\n  \t\t{"name":"train_num","type":"smallint"},\r\n  \t\t{"name":"ret","type":"smallint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+CityDefenseBattle	{\r\n"name":"city_defense_battle",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"},  \r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"state","type":"smallint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+ExtraOrderFlow	{\r\n"name":"extra_order_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"},  \r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n  \t\t{"name":"cost_type","type":"smallint"},\r\n  \t\t{"name":"channel","type":"smallint"},\r\n  \t\t{"name":"action_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+RewardOrderFlow	{\r\n"name":"reward_order_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"},  \r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n  \t\t{"name":"cost_type","type":"smallint"},\r\n  \t\t{"name":"channel","type":"smallint"},\r\n  \t\t{"name":"action_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+AddPay	{\r\n\t"name":"add_pay",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"ident", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n\t\t{"name":"url", "type":"character varying(200)"}\r\n\t\t],\r\n\t\t"index" : [["log_time"]]\r\n}\r\n
+CompetitionCheer	{\r\n"name":"competition_cheer",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"round","type":"smallint"},\r\n  \t\t{"name":"server_id","type":"character varying(100)"},\r\n  \t\t{"name":"acc_name","type":"character varying(100)"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+BosomFriendExpFlow	{\r\n\t"name":"bosomfriend_exp_flow",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n\t\t{"name":"npc_id", "type":"integer"},\r\n\t\t{"name":"befor_lvl", "type":"integer"},\r\n\t\t{"name":"after_lvl", "type":"integer"},\r\n\t\t{"name":"befor_exp", "type":"integer"},\r\n\t\t{"name":"after_exp", "type":"integer"},\r\n\t\t{"name":"exp", "type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+FamousFlow	{\r\n\t"name":"famous_flow",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n\t\t{"name":"famous_type", "type":"integer"},\r\n\t\t{"name":"befor_value", "type":"integer"},\r\n\t\t{"name":"after_value", "type":"integer"},\r\n\t\t{"name":"consumed", "type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+TravelPass	{\r\n"name":"travel_pass",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"},  \r\n  \t\t{"name":"role_name","type":"character varying(100)"}],\r\n"index":[["login_name","log_time"]]\r\n}
+WorldCityFoodFlow	{\r\n"name":"world_city_food_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n  \t\t{"name":"befor_food","type":"integer"},\r\n  \t\t{"name":"after_food","type":"integer"},\r\n  \t\t{"name":"food","type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+CompetitionResult	{\r\n"name":"competition_result",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"win_name","type":"character varying(100)"},\r\n  \t\t{"name":"win_server_id","type":"character varying(100)"},\r\n\t\t{"name":"failed_name","type":"character varying(100)"},\r\n  \t\t{"name":"failed_server_id","type":"character varying(100)"},\r\n  \t\t{"name":"round","type":"smallint"}],\r\n"index":[["log_time"]]\r\n}\r\n
+PearlFlow	{"name":"pearl_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_pearl","type":"integer"},{"name":"after_pearl","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+TravelTimesFlow	{\r\n"name":"travel_times_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"},  \r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n\t\t{"name":"role_job","type":"smallint"},\r\n\t\t{"name":"role_sex","type":"smallint"},\r\n\t\t{"name":"level","type":"smallint"},\r\n\t\t{"name":"before_travel_times","type":"smallint"},\r\n\t\t{"name":"after_travel_times","type":"smallint"},\r\n\t\t{"name":"consumed","type":"smallint"},\r\n\t\t{"name":"channel","type":"smallint"},\r\n\t\t{"name":"action_type","type":"smallint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+EliteCardFlow	{\r\n\t"name":"elite_card_flow",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n\t\t{"name":"role_id", "type":"bigint"},\r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n\t\t{"name":"card_id", "type":"integer"},\r\n\t\t{"name":"befor_card_num", "type":"integer"},\r\n\t\t{"name":"after_card_num", "type":"integer"},\r\n\t\t{"name":"card_num", "type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+WorldCityRank	{\r\n"name":"worldcity_rank",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"master_id","type":"smallint"},\r\n  \t\t{"name":"failed_server_id","type":"character varying"}],\r\n"index":[["log_time"]]\r\n}\r\n
+TavernAttri	{\r\n\t"name":"tavern_attri",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"}, \r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n\t\t{"name":"general_id", "type":"smallint"},\r\n\t\t{"name":"attri_type", "type":"smallint"},\r\n\t\t{"name":"pre_tavern_attir", "type":"smallint"},\r\n\t\t{"name":"tavern_attir", "type":"smallint"},\r\n\t\t{"name":"tavern_attir_add", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+JadeFlow	{"name":"jade_flow","columns":[{"name":"eventID","type":"bigint"},{"name":"login_name","type":"character varying(100)"},{"name":"log_time","type":"timestamp without time zone"},{"name":"role_id","type":"bigint"},{"name":"role_name","type":"character varying(100)"},{"name":"role_job","type":"smallint"},{"name":"role_sex","type":"smallint"},{"name":"role_lvl","type":"smallint"},{"name":"befor_jade","type":"integer"},{"name":"after_jade","type":"integer"},{"name":"consumed","type":"integer"},{"name":"channel","type":"smallint"},{"name":"action_type","type":"smallint"},{"name":"client_type","type":"smallint"}],"index":[["login_name"],["log_time"]]}
+GeneralSchoolSkill	{\r\n"name":"general_school_skill",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"old_skill","type":"smallint"},\r\n  \t\t{"name":"new_skill","type":"smallint"},\r\n  \t\t{"name":"choose_skill","type":"smallint"},\r\n  \t\t{"name":"pos","type":"smallint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+BattleOrderFlow	{\r\n\t"name":"battle_order_flow",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n\t\t{"name":"role_id", "type":"bigint"},\r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n\t\t{"name":"befor_battle_order", "type":"integer"},\r\n\t\t{"name":"after_battle_order", "type":"integer"},\r\n\t\t{"name":"battle_order", "type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+GeneralRebuild	{\r\n\t"name":"general_rebuild",\r\n\t"columns" : [   \r\n\t\t{"name":"eventID", "type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},    \r\n\t\t{"name":"log_time", "type":"timestamp without time zone"},\r\n  \t\t{"name":"role_id","type":"bigint"}, \r\n\t\t{"name":"role_name", "type":"character varying(100)"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n\t\t{"name":"train_lvl","type":"smallint"},\r\n\t\t{"name":"navy_train_lvl","type":"smallint"},\r\n\t\t{"name":"general_id", "type":"smallint"},\r\n\t\t{"name":"transfer_times", "type":"smallint"},\r\n\t\t{"name":"general_level", "type":"smallint"},\r\n\t\t{"name":"general_navy_level", "type":"smallint"},\r\n\t\t{"name":"bun_exp", "type":"integer"},\r\n\t\t{"name":"meate_exp", "type":"integer"},\r\n\t\t{"name":"wine_exp", "type":"integer"},\r\n\t\t{"name":"pear_exp", "type":"integer"},\r\n\t\t{"name":"jade_exp", "type":"integer"},\r\n\t\t{"name":"censer_exp", "type":"integer"},\r\n\t\t{"name":"dragon_soul", "type":"integer"},\r\n\t\t{"name":"tiger_soul", "type":"integer"},\r\n\t\t{"name":"suzaku_soul", "type":"integer"},\r\n\t\t{"name":"basaitic_soul", "type":"integer"},\r\n\t\t{"name":"reward_order", "type":"integer"},\r\n\t\t{"name":"tavern_leader", "type":"integer"},\r\n\t\t{"name":"tavern_attack", "type":"integer"},\r\n\t\t{"name":"tavern_mentality", "type":"integer"},\r\n\t\t{"name":"tavern_soldiernum", "type":"integer"},\r\n\t\t{"name":"client_type", "type":"smallint"}\r\n\t\t],\r\n\t\t"index" : [["login_name"],["log_time"]]\r\n}\r\n
+SilverCrossFlow	{\r\n"name":"silver_cross_flow",\r\n"columns":[\t{"name":"eventID","type":"bigint"},\r\n\t\t{"name":"login_name", "type":"character varying(100)"},\r\n\t\t{"name":"log_time","type":"timestamp without time zone"},\r\n  \t\t{"name":"role_name","type":"character varying(100)"},\r\n  \t\t{"name":"role_job","type":"smallint"},\r\n  \t\t{"name":"role_sex","type":"smallint"},\r\n  \t\t{"name":"role_lvl","type":"smallint"},\r\n  \t\t{"name":"befor_silver_cross","type":"integer"},\r\n  \t\t{"name":"after_silver_cross","type":"integer"},\r\n  \t\t{"name":"silver_cross","type":"integer"},\r\n\t\t{"name":"channel", "type":"smallint"},\r\n\t\t{"name":"action_type", "type":"smallint"},\r\n  \t\t{"name":"client_type","type":"smallint"}],\r\n"index":[["login_name","log_time"]]\r\n}
+\.
+
+
+--
+-- Data for Name: tavern_attri_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tavern_attri_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, general_id, attri_type, pre_tavern_attir, tavern_attir, tavern_attir_add, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tech_lve_up_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tech_lve_up_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_lvl, golden_coin, tech_id, tech_lvl_before, tech_lvl_after, consume_gest, before_gest, after_gest, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: tower_order_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY tower_order_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_tower_order, after_tower_order, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: travel_pass_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY travel_pass_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: travel_times_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY travel_times_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, level, before_travel_times, after_travel_times, consumed, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: wine_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY wine_flow_0 (internal_auto_id, eventid, login_name, log_time, role_id, role_name, role_job, role_sex, role_lvl, befor_wine, after_wine, consumed, channel, action_type, extra_str, client_type) FROM stdin;
+\.
+
+
+--
+-- Data for Name: world_city_food_flow_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY world_city_food_flow_0 (internal_auto_id, eventid, login_name, log_time, role_name, role_job, role_sex, role_lvl, befor_food, after_food, food, channel, action_type, client_type, extra_str) FROM stdin;
+\.
+
+
+--
+-- Data for Name: worldcity_rank_0; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY worldcity_rank_0 (internal_auto_id, eventid, login_name, log_time, master_id, failed_server_id, extra_str) FROM stdin;
+\.
+
+
+--
+-- Name: add_pay_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY add_pay_0
+    ADD CONSTRAINT add_pay_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: attack_instance_npc_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY attack_instance_npc_0
+    ADD CONSTRAINT attack_instance_npc_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: battle_order_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY battle_order_flow_0
+    ADD CONSTRAINT battle_order_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: bosomfriend_exp_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bosomfriend_exp_flow_0
+    ADD CONSTRAINT bosomfriend_exp_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: build_lve_up_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY build_lve_up_0
+    ADD CONSTRAINT build_lve_up_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: bun_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY bun_flow_0
+    ADD CONSTRAINT bun_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: censer_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY censer_flow_0
+    ADD CONSTRAINT censer_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: chat_record_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY chat_record_0
+    ADD CONSTRAINT chat_record_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: city_defense_battle_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY city_defense_battle_0
+    ADD CONSTRAINT city_defense_battle_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: citybattlecredit_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY citybattlecredit_flow_0
+    ADD CONSTRAINT citybattlecredit_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: competition_cheer_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY competition_cheer_0
+    ADD CONSTRAINT competition_cheer_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: competition_result_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY competition_result_0
+    ADD CONSTRAINT competition_result_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: corps_create_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY corps_create_0
+    ADD CONSTRAINT corps_create_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: corps_lve_up_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY corps_lve_up_0
+    ADD CONSTRAINT corps_lve_up_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: crystal_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY crystal_flow_0
+    ADD CONSTRAINT crystal_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: elite_card_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY elite_card_flow_0
+    ADD CONSTRAINT elite_card_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: equipment_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY equipment_flow_0
+    ADD CONSTRAINT equipment_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: etched_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY etched_flow_0
+    ADD CONSTRAINT etched_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: extra_order_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY extra_order_flow_0
+    ADD CONSTRAINT extra_order_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: famous_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY famous_flow_0
+    ADD CONSTRAINT famous_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: feat_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY feat_flow_0
+    ADD CONSTRAINT feat_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: food_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY food_flow_0
+    ADD CONSTRAINT food_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_fight_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_fight_0
+    ADD CONSTRAINT general_fight_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_lve_up_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_lve_up_0
+    ADD CONSTRAINT general_lve_up_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_rebuild_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_rebuild_0
+    ADD CONSTRAINT general_rebuild_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_reincarnation_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_reincarnation_0
+    ADD CONSTRAINT general_reincarnation_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_school_skill_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_school_skill_0
+    ADD CONSTRAINT general_school_skill_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_school_train_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_school_train_0
+    ADD CONSTRAINT general_school_train_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_soul_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_soul_flow_0
+    ADD CONSTRAINT general_soul_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: general_train_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY general_train_0
+    ADD CONSTRAINT general_train_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: gest_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY gest_flow_0
+    ADD CONSTRAINT gest_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: gold_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY gold_flow_0
+    ADD CONSTRAINT gold_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: insignia_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY insignia_flow_0
+    ADD CONSTRAINT insignia_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: jade_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY jade_flow_0
+    ADD CONSTRAINT jade_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: join_corps_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY join_corps_0
+    ADD CONSTRAINT join_corps_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: log_tables_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY log_tables
+    ADD CONSTRAINT log_tables_pkey PRIMARY KEY (table_name);
+
+
+--
+-- Name: material_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY material_flow_0
+    ADD CONSTRAINT material_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: meat_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY meat_flow_0
+    ADD CONSTRAINT meat_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: military_order_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY military_order_flow_0
+    ADD CONSTRAINT military_order_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: modify_login_name_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY modify_login_name_0
+    ADD CONSTRAINT modify_login_name_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: money_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY money_flow_0
+    ADD CONSTRAINT money_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: orange_jade_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY orange_jade_flow_0
+    ADD CONSTRAINT orange_jade_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: pass_instance_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pass_instance_0
+    ADD CONSTRAINT pass_instance_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: pass_tower_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pass_tower_0
+    ADD CONSTRAINT pass_tower_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: pearl_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY pearl_flow_0
+    ADD CONSTRAINT pearl_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: pk_player_state; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY player_state
+    ADD CONSTRAINT pk_player_state PRIMARY KEY (account_name, platform);
+
+
+--
+-- Name: pk_statistic_tables; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY statistic_tables
+    ADD CONSTRAINT pk_statistic_tables PRIMARY KEY (table_name);
+
+
+--
+-- Name: position_transfer_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY position_transfer_flow_0
+    ADD CONSTRAINT position_transfer_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: prestige_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY prestige_flow_0
+    ADD CONSTRAINT prestige_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: purple_jade_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY purple_jade_flow_0
+    ADD CONSTRAINT purple_jade_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: reward_order_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY reward_order_flow_0
+    ADD CONSTRAINT reward_order_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: rob_sea_ship_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY rob_sea_ship_0
+    ADD CONSTRAINT rob_sea_ship_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: role_create_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role_create_0
+    ADD CONSTRAINT role_create_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: role_login_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role_login_0
+    ADD CONSTRAINT role_login_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: role_logout_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY role_logout_0
+    ADD CONSTRAINT role_logout_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: silver_cross_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY silver_cross_flow_0
+    ADD CONSTRAINT silver_cross_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: soul_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY soul_flow_0
+    ADD CONSTRAINT soul_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: table_definition_pk; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY table_definition
+    ADD CONSTRAINT table_definition_pk PRIMARY KEY (name);
+
+
+--
+-- Name: tavern_attri_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tavern_attri_0
+    ADD CONSTRAINT tavern_attri_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: tech_lve_up_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tech_lve_up_0
+    ADD CONSTRAINT tech_lve_up_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: tower_order_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY tower_order_flow_0
+    ADD CONSTRAINT tower_order_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: travel_pass_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY travel_pass_0
+    ADD CONSTRAINT travel_pass_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: travel_times_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY travel_times_flow_0
+    ADD CONSTRAINT travel_times_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: wine_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY wine_flow_0
+    ADD CONSTRAINT wine_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: world_city_food_flow_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY world_city_food_flow_0
+    ADD CONSTRAINT world_city_food_flow_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: worldcity_rank_0_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
+--
+
+ALTER TABLE ONLY worldcity_rank_0
+    ADD CONSTRAINT worldcity_rank_0_pkey PRIMARY KEY (internal_auto_id);
+
+
+--
+-- Name: add_pay_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX add_pay_0_idx_0 ON add_pay_0 USING btree (log_time);
+
+
+--
+-- Name: attack_instance_npc_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX attack_instance_npc_0_idx_0 ON attack_instance_npc_0 USING btree (login_name);
+
+
+--
+-- Name: attack_instance_npc_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX attack_instance_npc_0_idx_1 ON attack_instance_npc_0 USING btree (log_time);
+
+
+--
+-- Name: battle_order_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX battle_order_flow_0_idx_0 ON battle_order_flow_0 USING btree (login_name);
+
+
+--
+-- Name: battle_order_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX battle_order_flow_0_idx_1 ON battle_order_flow_0 USING btree (log_time);
+
+
+--
+-- Name: bosomfriend_exp_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX bosomfriend_exp_flow_0_idx_0 ON bosomfriend_exp_flow_0 USING btree (login_name);
+
+
+--
+-- Name: bosomfriend_exp_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX bosomfriend_exp_flow_0_idx_1 ON bosomfriend_exp_flow_0 USING btree (log_time);
+
+
+--
+-- Name: build_lve_up_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX build_lve_up_0_idx_0 ON build_lve_up_0 USING btree (login_name);
+
+
+--
+-- Name: build_lve_up_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX build_lve_up_0_idx_1 ON build_lve_up_0 USING btree (log_time);
+
+
+--
+-- Name: bun_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX bun_flow_0_idx_0 ON bun_flow_0 USING btree (login_name);
+
+
+--
+-- Name: bun_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX bun_flow_0_idx_1 ON bun_flow_0 USING btree (log_time);
+
+
+--
+-- Name: censer_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX censer_flow_0_idx_0 ON censer_flow_0 USING btree (login_name);
+
+
+--
+-- Name: censer_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX censer_flow_0_idx_1 ON censer_flow_0 USING btree (log_time);
+
+
+--
+-- Name: chat_record_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX chat_record_0_idx_0 ON chat_record_0 USING btree (login_name);
+
+
+--
+-- Name: chat_record_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX chat_record_0_idx_1 ON chat_record_0 USING btree (log_time);
+
+
+--
+-- Name: city_defense_battle_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX city_defense_battle_0_idx_0 ON city_defense_battle_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: citybattlecredit_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX citybattlecredit_flow_0_idx_0 ON citybattlecredit_flow_0 USING btree (login_name);
+
+
+--
+-- Name: citybattlecredit_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX citybattlecredit_flow_0_idx_1 ON citybattlecredit_flow_0 USING btree (log_time);
+
+
+--
+-- Name: competition_cheer_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX competition_cheer_0_idx_0 ON competition_cheer_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: competition_result_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX competition_result_0_idx_0 ON competition_result_0 USING btree (log_time);
+
+
+--
+-- Name: corps_create_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX corps_create_0_idx_0 ON corps_create_0 USING btree (login_name);
+
+
+--
+-- Name: corps_create_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX corps_create_0_idx_1 ON corps_create_0 USING btree (log_time);
+
+
+--
+-- Name: corps_lve_up_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX corps_lve_up_0_idx_0 ON corps_lve_up_0 USING btree (login_name);
+
+
+--
+-- Name: corps_lve_up_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX corps_lve_up_0_idx_1 ON corps_lve_up_0 USING btree (log_time);
+
+
+--
+-- Name: crystal_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX crystal_flow_0_idx_0 ON crystal_flow_0 USING btree (login_name);
+
+
+--
+-- Name: crystal_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX crystal_flow_0_idx_1 ON crystal_flow_0 USING btree (log_time);
+
+
+--
+-- Name: elite_card_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX elite_card_flow_0_idx_0 ON elite_card_flow_0 USING btree (login_name);
+
+
+--
+-- Name: elite_card_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX elite_card_flow_0_idx_1 ON elite_card_flow_0 USING btree (log_time);
+
+
+--
+-- Name: equipment_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX equipment_flow_0_idx_0 ON equipment_flow_0 USING btree (login_name);
+
+
+--
+-- Name: equipment_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX equipment_flow_0_idx_1 ON equipment_flow_0 USING btree (log_time);
+
+
+--
+-- Name: etched_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX etched_flow_0_idx_0 ON etched_flow_0 USING btree (login_name);
+
+
+--
+-- Name: etched_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX etched_flow_0_idx_1 ON etched_flow_0 USING btree (log_time);
+
+
+--
+-- Name: extra_order_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX extra_order_flow_0_idx_0 ON extra_order_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: famous_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX famous_flow_0_idx_0 ON famous_flow_0 USING btree (login_name);
+
+
+--
+-- Name: famous_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX famous_flow_0_idx_1 ON famous_flow_0 USING btree (log_time);
+
+
+--
+-- Name: feat_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX feat_flow_0_idx_0 ON feat_flow_0 USING btree (login_name);
+
+
+--
+-- Name: feat_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX feat_flow_0_idx_1 ON feat_flow_0 USING btree (log_time);
+
+
+--
+-- Name: food_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX food_flow_0_idx_0 ON food_flow_0 USING btree (login_name);
+
+
+--
+-- Name: food_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX food_flow_0_idx_1 ON food_flow_0 USING btree (log_time);
+
+
+--
+-- Name: general_fight_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_fight_0_idx_0 ON general_fight_0 USING btree (login_name);
+
+
+--
+-- Name: general_fight_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_fight_0_idx_1 ON general_fight_0 USING btree (log_time);
+
+
+--
+-- Name: general_lve_up_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_lve_up_0_idx_0 ON general_lve_up_0 USING btree (login_name);
+
+
+--
+-- Name: general_lve_up_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_lve_up_0_idx_1 ON general_lve_up_0 USING btree (log_time);
+
+
+--
+-- Name: general_rebuild_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_rebuild_0_idx_0 ON general_rebuild_0 USING btree (login_name);
+
+
+--
+-- Name: general_rebuild_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_rebuild_0_idx_1 ON general_rebuild_0 USING btree (log_time);
+
+
+--
+-- Name: general_reincarnation_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_reincarnation_0_idx_0 ON general_reincarnation_0 USING btree (login_name);
+
+
+--
+-- Name: general_reincarnation_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_reincarnation_0_idx_1 ON general_reincarnation_0 USING btree (log_time);
+
+
+--
+-- Name: general_school_skill_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_school_skill_0_idx_0 ON general_school_skill_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: general_school_train_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_school_train_0_idx_0 ON general_school_train_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: general_soul_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_soul_flow_0_idx_0 ON general_soul_flow_0 USING btree (login_name);
+
+
+--
+-- Name: general_soul_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_soul_flow_0_idx_1 ON general_soul_flow_0 USING btree (log_time);
+
+
+--
+-- Name: general_train_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_train_0_idx_0 ON general_train_0 USING btree (login_name);
+
+
+--
+-- Name: general_train_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX general_train_0_idx_1 ON general_train_0 USING btree (log_time);
+
+
+--
+-- Name: gest_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gest_flow_0_idx_0 ON gest_flow_0 USING btree (login_name);
+
+
+--
+-- Name: gest_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gest_flow_0_idx_1 ON gest_flow_0 USING btree (log_time);
+
+
+--
+-- Name: gold_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gold_flow_0_idx_0 ON gold_flow_0 USING btree (login_name);
+
+
+--
+-- Name: gold_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX gold_flow_0_idx_1 ON gold_flow_0 USING btree (log_time);
+
+
+--
+-- Name: insignia_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX insignia_flow_0_idx_0 ON insignia_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: jade_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX jade_flow_0_idx_0 ON jade_flow_0 USING btree (login_name);
+
+
+--
+-- Name: jade_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX jade_flow_0_idx_1 ON jade_flow_0 USING btree (log_time);
+
+
+--
+-- Name: join_corps_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX join_corps_0_idx_0 ON join_corps_0 USING btree (login_name);
+
+
+--
+-- Name: join_corps_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX join_corps_0_idx_1 ON join_corps_0 USING btree (log_time);
+
+
+--
+-- Name: material_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX material_flow_0_idx_0 ON material_flow_0 USING btree (login_name);
+
+
+--
+-- Name: material_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX material_flow_0_idx_1 ON material_flow_0 USING btree (log_time);
+
+
+--
+-- Name: meat_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX meat_flow_0_idx_0 ON meat_flow_0 USING btree (login_name);
+
+
+--
+-- Name: meat_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX meat_flow_0_idx_1 ON meat_flow_0 USING btree (log_time);
+
+
+--
+-- Name: military_order_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX military_order_flow_0_idx_0 ON military_order_flow_0 USING btree (login_name);
+
+
+--
+-- Name: military_order_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX military_order_flow_0_idx_1 ON military_order_flow_0 USING btree (log_time);
+
+
+--
+-- Name: modify_login_name_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX modify_login_name_0_idx_0 ON modify_login_name_0 USING btree (modifier_name);
+
+
+--
+-- Name: modify_login_name_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX modify_login_name_0_idx_1 ON modify_login_name_0 USING btree (log_time);
+
+
+--
+-- Name: money_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX money_flow_0_idx_0 ON money_flow_0 USING btree (login_name);
+
+
+--
+-- Name: money_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX money_flow_0_idx_1 ON money_flow_0 USING btree (log_time);
+
+
+--
+-- Name: orange_jade_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX orange_jade_flow_0_idx_0 ON orange_jade_flow_0 USING btree (login_name);
+
+
+--
+-- Name: orange_jade_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX orange_jade_flow_0_idx_1 ON orange_jade_flow_0 USING btree (log_time);
+
+
+--
+-- Name: pass_instance_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pass_instance_0_idx_0 ON pass_instance_0 USING btree (login_name);
+
+
+--
+-- Name: pass_instance_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pass_instance_0_idx_1 ON pass_instance_0 USING btree (log_time);
+
+
+--
+-- Name: pass_tower_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pass_tower_0_idx_0 ON pass_tower_0 USING btree (login_name);
+
+
+--
+-- Name: pass_tower_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pass_tower_0_idx_1 ON pass_tower_0 USING btree (log_time);
+
+
+--
+-- Name: pearl_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pearl_flow_0_idx_0 ON pearl_flow_0 USING btree (login_name);
+
+
+--
+-- Name: pearl_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX pearl_flow_0_idx_1 ON pearl_flow_0 USING btree (log_time);
+
+
+--
+-- Name: position_transfer_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX position_transfer_flow_0_idx_0 ON position_transfer_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: prestige_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX prestige_flow_0_idx_0 ON prestige_flow_0 USING btree (login_name);
+
+
+--
+-- Name: prestige_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX prestige_flow_0_idx_1 ON prestige_flow_0 USING btree (log_time);
+
+
+--
+-- Name: purple_jade_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX purple_jade_flow_0_idx_0 ON purple_jade_flow_0 USING btree (login_name);
+
+
+--
+-- Name: purple_jade_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX purple_jade_flow_0_idx_1 ON purple_jade_flow_0 USING btree (log_time);
+
+
+--
+-- Name: reward_order_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX reward_order_flow_0_idx_0 ON reward_order_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: rob_sea_ship_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX rob_sea_ship_0_idx_0 ON rob_sea_ship_0 USING btree (login_name);
+
+
+--
+-- Name: rob_sea_ship_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX rob_sea_ship_0_idx_1 ON rob_sea_ship_0 USING btree (log_time);
+
+
+--
+-- Name: role_create_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX role_create_0_idx_0 ON role_create_0 USING btree (login_name);
+
+
+--
+-- Name: role_create_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX role_create_0_idx_1 ON role_create_0 USING btree (log_time);
+
+
+--
+-- Name: role_login_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX role_login_0_idx_0 ON role_login_0 USING btree (login_name);
+
+
+--
+-- Name: role_login_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX role_login_0_idx_1 ON role_login_0 USING btree (log_time);
+
+
+--
+-- Name: role_logout_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX role_logout_0_idx_0 ON role_logout_0 USING btree (login_name);
+
+
+--
+-- Name: role_logout_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX role_logout_0_idx_1 ON role_logout_0 USING btree (log_time);
+
+
+--
+-- Name: silver_cross_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX silver_cross_flow_0_idx_0 ON silver_cross_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: soul_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX soul_flow_0_idx_0 ON soul_flow_0 USING btree (login_name);
+
+
+--
+-- Name: soul_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX soul_flow_0_idx_1 ON soul_flow_0 USING btree (log_time);
+
+
+--
+-- Name: tavern_attri_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX tavern_attri_0_idx_0 ON tavern_attri_0 USING btree (login_name);
+
+
+--
+-- Name: tavern_attri_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX tavern_attri_0_idx_1 ON tavern_attri_0 USING btree (log_time);
+
+
+--
+-- Name: tech_lve_up_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX tech_lve_up_0_idx_0 ON tech_lve_up_0 USING btree (login_name);
+
+
+--
+-- Name: tech_lve_up_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX tech_lve_up_0_idx_1 ON tech_lve_up_0 USING btree (log_time);
+
+
+--
+-- Name: tower_order_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX tower_order_flow_0_idx_0 ON tower_order_flow_0 USING btree (login_name);
+
+
+--
+-- Name: tower_order_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX tower_order_flow_0_idx_1 ON tower_order_flow_0 USING btree (log_time);
+
+
+--
+-- Name: travel_pass_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX travel_pass_0_idx_0 ON travel_pass_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: travel_times_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX travel_times_flow_0_idx_0 ON travel_times_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: wine_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX wine_flow_0_idx_0 ON wine_flow_0 USING btree (login_name);
+
+
+--
+-- Name: wine_flow_0_idx_1; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX wine_flow_0_idx_1 ON wine_flow_0 USING btree (log_time);
+
+
+--
+-- Name: world_city_food_flow_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX world_city_food_flow_0_idx_0 ON world_city_food_flow_0 USING btree (login_name, log_time);
+
+
+--
+-- Name: worldcity_rank_0_idx_0; Type: INDEX; Schema: public; Owner: postgres; Tablespace: 
+--
+
+CREATE INDEX worldcity_rank_0_idx_0 ON worldcity_rank_0 USING btree (log_time);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

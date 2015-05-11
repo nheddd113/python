@@ -1,0 +1,28 @@
+# /etc/hosts.allow: list of hosts that are allowed to access the system.
+#                   See the manual pages hosts_access(5) and hosts_options(5).
+#
+# Example:    ALL: LOCAL @some_netgroup
+#             ALL: .foobar.edu EXCEPT terminalserver.foobar.edu
+#
+# If you're going to protect the portmapper use the name "portmap" for the
+# daemon name. Remember that you can only use the keyword "ALL" and IP
+# addresses (NOT host or domain names) for the portmapper, as well as for
+# rpc.mountd (the NFS mount daemon). See portmap(8) and rpc.mountd(8)
+# for further information.
+#
+sshd:192.168.0.0/16,10.0.0.0/8,172.16.0.0/16,172.31.6.0/24:allow
+sshd:10.58.56.22,10.30.27.5,10.86.34.208:allow
+sshd:122.226.111.35,223.202.45.25,223.202.32.165:allow
+sshd:101.95.5.22,27.115.76.0/29:allow
+sshd:116.213.141.190,61.219.14.132,198.143.185.186:allow
+sshd:117.53.153.135,210.242.105.143,210.129.81.69:allow
+sshd:114.129.22.7,211.55.34.78,108.168.217.180:allow
+sshd:122.147.184.5,125.212.193.18,27.254.37.151,:allow
+sshd:117.18.116.194,59.152.240.83,118.102.7.5:allow
+sshd:202.181.205.186,103.29.186.77,118.69.174.201:allow
+sshd:122.226.111.53,27.131.146.126,14.192.69.116:allow
+sshd:10.90.13.215,172.19.174.180,1.234.11.81:allow
+sshd:218.32.57.198,172.19.174.0/24,1.234.11.81:allow
+sshd:198.23.85.140,10.84.230.194,42.117.1.226:allow
+sshd:78.46.79.111,125.212.210.235:allow
+sshd:all:deny

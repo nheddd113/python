@@ -1,0 +1,10 @@
+[os]
+name=xen:install
+baseurl=http://192.168.15.91/CentOS/6.6/os
+enabled=1
+gpgcheck=0
+[updates]
+name=update glibc
+baseurl=http://192.168.15.91/CentOS/6.6/updates
+enabled=1
+gpgcheck=0

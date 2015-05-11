@@ -1,0 +1,17 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /home/soidc/war_web/
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /home/soidc/war_web/>
+                Options FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog /var/log/apache2/war-error.log
+        CustomLog /var/log/apache2/war-custom.log common
+</VirtualHost>

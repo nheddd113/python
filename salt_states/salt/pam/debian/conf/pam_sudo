@@ -1,0 +1,12 @@
+#%PAM-1.0
+auth    [success=1 default=ignore]      pam_ldap.so
+auth    requisite                       pam_deny.so
+auth    required                        pam_permit.so
+
+account [success=1 default=ignore]      pam_ldap.so
+account requisite                       pam_deny.so
+account required                        pam_permit.so
+
+
+session required pam_permit.so
+session required pam_limits.so

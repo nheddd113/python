@@ -1,0 +1,7 @@
+# The PAM configuration file for the Shadow 'chpasswd' service
+#
+
+password    [success=ok default=bad] pam_cracklib.so retry=5 difok=3 minlen=10 ucredit=-1 lcredit=-3 dcredit=-3 type= use_authtok
+password    [success=done default=bad new_authtok_reqd=done  ignore=ignore]  pam_unix.so try_first_pass
+password    requisite           pam_deny.so
+password    required            pam_permit.so

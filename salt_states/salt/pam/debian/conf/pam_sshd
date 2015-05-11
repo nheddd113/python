@@ -1,0 +1,28 @@
+#%PAM-1.0
+auth       required     pam_env.so # [1]
+auth       required     pam_env.so envfile=/etc/default/locale
+auth    [success=1 default=ignore]      pam_ldap.so debug
+auth    requisite                       pam_deny.so
+auth    required                        pam_permit.so
+
+
+account    required     pam_nologin.so
+account [success=1 default=ignore]      pam_ldap.so debug
+account requisite                       pam_deny.so
+account required                        pam_permit.so
+
+
+session    optional     pam_motd.so # [1]
+session    optional     pam_mail.so standard noenv # [1]
+session    required     pam_limits.so
+session [default=1]                     pam_permit.so
+session requisite                       pam_deny.so
+session required                        pam_permit.so
+session optional                        pam_ldap.so debug
+session required pam_mkhomedir.so umask=0022 skel=/etc/skel/ silent
+
+
+
+password        [success=1 user_unknown=ignore default=die]     pam_ldap.so use_authtok try_first_pass
+password        requisite                       pam_deny.so
+password        required                        pam_permit.so

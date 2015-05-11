@@ -1,0 +1,17 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /home/soidc/mycs_web/
+<Directory />
+    Options FollowSymLinks
+    AllowOverride None
+</Directory>
+<Directory /home/soidc/mycs_web/>
+    Options FollowSymLinks MultiViews
+    AllowOverride None
+    Order allow,deny
+    allow from all
+</Directory>
+    ErrorLog /var/log/apache2/mycs-error.log
+    CustomLog /var/log/apache2/mycs-custom.log common
+</VirtualHost>

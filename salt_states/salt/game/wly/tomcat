@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+### BEGIN INIT INFO
+# Provides:             tomcat
+# Required-Start:       $local_fs $remote_fs $network $time
+# Required-Stop:        $local_fs $remote_fs $network $time
+# Should-Start:         $syslog
+# Should-Stop:          $syslog
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    webserver
+### END INIT INFO
+export JAVA_HOME=/usr/lib/jre6
+case $1 in
+start)
+  sh /usr/local/tomcat/bin/startup.sh
+  mount -a
+  ;;
+stop)
+  sh /usr/local/tomcat/bin/shutdown.sh
+  ;;
+status)
+  pgrep java > /dev/dell
+  exit $?
+  ;;
+restart)
+  sh /usr/local/tomcat/bin/shutdown.sh
+  sleep 5
+  sh /usr/local/tomcat/bin/startup.sh
+  ;;
+esac
+exit 0

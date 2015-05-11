@@ -1,0 +1,5 @@
+base:
+    '*':
+        - nrpe
+        - gameinfo
+        - iptable

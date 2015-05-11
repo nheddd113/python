@@ -1,0 +1,58 @@
+#!/usr/bin/env python
+#encoding=utf-8
+import socket,sys,os,time
+def getDirPath(gamename):
+    dirPrefix = "/corefile/core"
+    if os.path.isfile(dirPrefix):
+        return dirPrefix
+    else:
+        return False
+
+def getGameName():
+    filename = "/etc/conf/uqee/gamename"
+    fp = open(filename,"r").read().strip()
+    return fp
+
+def startGame(gamename,filepath):
+    filetime = os.path.getmtime(filepath)
+    currtime = time.time()
+    cmd1= "sudo mv /corefile/core /corefile/core_bak"
+    os.system(cmd1)
+    if (currtime - 10 * 60) <= filetime:
+        cmd = "sudo /mnt/db.bak/xl/shell_xl/start_game.sh %s > /dev/null" % gamename
+        os.system(cmd)
+        return True
+    else:
+        return False
+if len(sys.argv)<=1:
+    print "lose param!"
+    sys.exit(2)
+IP = sys.argv[1]
+game = getGameName()
+PORT = 9131
+host=(IP,PORT)
+socket.setdefaulttimeout(10)
+cs = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+try:
+    cs.connect(host)
+    cs.send('@')
+    data = cs.recv(1024)
+    print "game is ok now!"
+    exit(0) 
+except socket.timeout:
+    print "Connection time out,game was stopped!"
+    exit(2)
+except socket.error:
+    filepath = getDirPath(game)
+    if filepath :
+        ret = startGame(game,filepath)
+        if ret is True:
+            print "%s is starting now " % game
+            exit(2)
+        else:
+            print "Connection refused,game was stopped!\n"
+            exit(1)
+    else:
+        print "Connection refused,game was stopped!\n"
+        exit(1)
+

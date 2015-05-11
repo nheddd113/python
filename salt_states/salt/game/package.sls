@@ -1,0 +1,47 @@
+wlypkg:
+  pkg.installed:
+    - skip_verify: True
+    - pkgs:
+        - vim
+        - apache2
+        - redis-server
+        - make
+        - gcc
+        - g++
+        - emacs
+        - dpkg-dev
+        - libssl-dev
+        - snmpd
+        - ntpdate
+        - sudo
+        - curl
+        - libperl-dev
+        - rrdtool
+        - screen
+        - gdb
+        - postgresql-8.4
+        - libboost1.42-all-dev
+        - libltdl-dev
+        - libtinyxml-dev
+        - libprotobuf-dev
+        - apache2-utils
+        - libapache2-mod-jk
+        - libapache2-mod-auth-pam
+        - libapache2-mod-auth-sys-group
+        - unrar
+        - php5
+        - php5-pgsql
+        - redfox: ">=1.1.0-7"
+        - libprotobuf6
+        - libluabind0.9.0
+        - unzip
+        - libtcmalloc-minimal0
+        - php5-curl
+        - python-psutil
+        - python-psycopg2
+        - python-progressbar
+        - lrzsz
+        - nagios-plugins
+        - snmp
+        - libc6
+        - lib32gcc1

@@ -1,0 +1,17 @@
+<VirtualHost *:80>
+        ServerAdmin webmaster@localhost
+
+        DocumentRoot /home/soidc/khbd_web/
+        <Directory />
+                Options FollowSymLinks
+                AllowOverride None
+        </Directory>
+        <Directory /home/soidc/khbd_web/>
+                Options FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+        ErrorLog /var/log/apache2/khbd-error.log
+        CustomLog /var/log/apache2/khbd-custom.log common
+</VirtualHost>

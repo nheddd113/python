@@ -1,0 +1,52 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:             mongos
+# Required-Start:       $local_fs $remote_fs $network $time
+# Required-Stop:        $local_fs $remote_fs $network $time
+# Should-Start:         $syslog
+# Should-Stop:          $syslog
+# Default-Start:        2 3 4 5
+# Default-Stop:         0 1 6
+# Short-Description:    mongos config
+### END INIT INFO
+
+NAME=mongod
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+DOMAIN=/var/lib/mongodb/bin/$NAME
+LOGFILE=/var/log/mongodb/$NAME.log
+PIDFILE=/var/run/$NAME.pid
+CONFIG_FILE=/etc/default/mongodb.conf
+
+test -x $DOMAIN || exit 1
+test -f $CONFIG_FILE || exit 2
+. /lib/lsb/init-functions 
+
+case $1 in
+    start)
+        log_daemon_msg "Start ${NAME}"
+        pidofproc -p $PIDFILE $NAME $NAME > \
+            /dev/null && log_success_msg " $NAME alrealy running!" && exit 0   
+        start-stop-daemon --background -m --start \
+            --pidfile $PIDFILE --startas $DOMAIN -- "--config=$CONFIG_FILE"
+        log_end_msg $? 
+        ;;
+    stop)
+        log_daemon_msg "Stopping ${NAME}"
+        start-stop-daemon --stop --quiet --pidfile $PIDFILE
+        log_end_msg $?
+        ;;
+
+    restart)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+
+    status)
+        status_of_proc -p $PIDFILE $NAME $NAME && exit $?
+        ;;
+    *)
+        log_action_msg "Usage: $0{start|stop|restart|status}"
+
+esac

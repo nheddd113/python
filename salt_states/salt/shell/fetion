@@ -1,0 +1,70 @@
+#!/usr/bin/env python
+# -*- coding: utf-8-*-
+import sys
+import urllib
+import urllib2
+import xml.etree.ElementTree as ET
+
+class fetion(object):
+    def __init__(self,**params):
+        self.url = "http://www.jianzhou.sh.cn/JianzhouSMSWSServer/http/"
+        self.initData = dict();
+        self.initData['destmobile'] = params['mobile'].replace(',',';')
+        self.initData['msgText'] = params['content']
+        self.initData['account'] = 'sdk_youqi1'
+        self.initData['password'] = 'uqee@2013'
+
+    def sendMessage(self):
+        uri = "sendBatchMessage"
+        url = self.url + uri
+        data = urllib.urlencode(self.initData)
+        return self.doPost(url, data)
+
+    def checkNotify(self):
+        url = "http://idc.uqee.com/Private"
+        ret = self.doPost(url,'')
+        if ret == '1':
+            return True
+        else:
+            return False
+    def validateUser(self):
+        uri = "validateUser"
+        url = self.url + uri
+        data = urllib.urlencode(self.initData)
+        return int(self.doPost(url,data))
+        
+    def getUserInfo(self):
+        error = {}
+        error[100] = True
+        error[500] = True
+        error[1000] = True
+        if self.validateUser() != 1:
+            print "帐号密码不正确!"
+            return False
+        uri = "getUserInfo"
+        url = self.url + uri
+        data = urllib.urlencode(self.initData)
+        result = self.doPost(url, data)
+        root =  ET.fromstring(result)
+        free = root.find("remainFee")
+        free = int(free.text)
+        if free == 0:
+            print "余额为0!"
+            return False
+        return True
+    def doPost(self,url,data):
+        request = urllib2.Request(url)
+        result = urllib2.urlopen(request,data,30)
+        return result.read()  
+        
+if __name__ == '__main__':
+    data = {}
+    data['mobile'] = sys.argv[1]
+    data['content'] = sys.argv[2] + '【游奇网络】'
+    sendMsg = fetion(mobile=data['mobile'],content=data['content'])
+    if sendMsg.checkNotify() is False:
+        print "测试: 服务端制结果是不发短信"
+        exit(0)
+    userInfo = sendMsg.getUserInfo()
+    if userInfo:
+        print sendMsg.sendMessage()

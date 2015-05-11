@@ -1,0 +1,32 @@
+#!/usr/lib/env python
+#encoding:utf8
+
+import psutil,os,sys
+
+def getProcess():
+    num = 0
+    res = psutil.get_process_list()
+    for ps in res:
+        psClass = ps
+        try:
+            if '/usr/bin/salt-minion' in psClass.cmdline:
+                return 0
+            else:
+                num += 1
+        except:
+            num += 1
+    if num == len(res):
+        return 1
+def restProcess():
+    if os.path.exists("/etc/init.d/salt-minion"):
+        if getProcess() == 1:
+            os.system('/etc/init.d/salt-minion start >> /dev/null')
+            print "salt-minion go restarting..."
+            sys.exit(1)
+        else:
+            print 'salt-minion was working!'
+            sys.exit(0)
+    else:
+        print "salt-minion this service do not install!"
+        sys.exit(2)
+restProcess()

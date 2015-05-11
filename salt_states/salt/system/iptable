@@ -1,0 +1,5 @@
+#!/bin/bash
+
+if [ -f /etc/iptables/rules.v4 ];then
+    /sbin/iptables-restore /etc/iptables/rules.v4
+fi
